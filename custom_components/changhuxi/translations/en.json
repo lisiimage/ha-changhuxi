@@ -1,0 +1,98 @@
+{
+  "title": "Changhuxi",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Sign in to Changhuxi",
+        "description": "Use the mobile number and password from the Changhuxi app. Devices must already be paired in that app. This unofficial integration uses the vendor cloud; keep other clients for this account closed. Your password is used for sign-in only and is not saved.",
+        "data": {
+          "username": "Mobile number",
+          "password": "Password"
+        }
+      },
+      "captcha": {
+        "title": "Complete the image challenge",
+        "description": "Open [the verification image]({captcha_url}), then enter the characters below.",
+        "data": {
+          "captcha": "Verification code"
+        }
+      },
+      "devices": {
+        "title": "Select air purifiers",
+        "data": {
+          "selected_devices": "Air purifiers"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Sign-in was rejected. Check your mobile number and password.",
+      "cannot_connect": "Could not reach the service. Please try again later.",
+      "no_selection": "Select at least one supported purifier."
+    },
+    "abort": {
+      "already_configured": "This account is already configured.",
+      "no_devices": "No supported A3xx air purifiers were found in this account. Pair a purifier in the Changhuxi app first.",
+      "wrong_account": "Sign in with the same account as the existing integration.",
+      "reauth_successful": "Sign-in updated successfully."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Air purifiers",
+        "description": "Choose the devices to add. New devices are discovered when opening this screen.",
+        "data": {
+          "selected_devices": "Air purifiers"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not refresh the device list. Please try again later.",
+      "no_selection": "Select at least one purifier."
+    },
+    "abort": {
+      "reauth_required": "Your session has expired. Complete the sign-in repair first."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "pm25": {
+        "name": "PM2.5"
+      },
+      "temperature": {
+        "name": "Temperature"
+      },
+      "humidity": {
+        "name": "Humidity"
+      },
+      "rpm": {
+        "name": "Motor speed"
+      },
+      "error_code": {
+        "name": "Error code"
+      }
+    },
+    "switch": {
+      "child_lock": {
+        "name": "Child lock"
+      }
+    },
+    "select": {
+      "brightness": {
+        "name": "Display brightness",
+        "state": {
+          "auto": "Automatic",
+          "off": "Off",
+          "level_1": "Level 1",
+          "level_2": "Level 2",
+          "level_3": "Level 3",
+          "level_4": "Level 4",
+          "level_5": "Level 5",
+          "level_6": "Level 6",
+          "level_7": "Level 7",
+          "level_8": "Level 8"
+        }
+      }
+    }
+  }
+}

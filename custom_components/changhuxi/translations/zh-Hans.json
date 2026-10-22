@@ -1,0 +1,98 @@
+{
+  "title": "畅呼吸",
+  "config": {
+    "step": {
+      "user": {
+        "title": "登录畅呼吸",
+        "description": "输入畅呼吸 App 使用的手机号和密码，净化器需已在 App 中绑定。本社区集成使用厂商云端；请关闭同账号的其他控制客户端。密码仅用于本次登录，不会保存。",
+        "data": {
+          "username": "手机号",
+          "password": "密码"
+        }
+      },
+      "captcha": {
+        "title": "图片验证",
+        "description": "请打开[验证码图片]({captcha_url})，输入图片中的字符。",
+        "data": {
+          "captcha": "验证码"
+        }
+      },
+      "devices": {
+        "title": "选择净化器",
+        "data": {
+          "selected_devices": "净化器"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "登录被拒绝，请检查手机号和密码。",
+      "cannot_connect": "无法连接服务，请稍后重试。",
+      "no_selection": "请至少选择一台支持的净化器。"
+    },
+    "abort": {
+      "already_configured": "此账号已添加。",
+      "no_devices": "此账号没有支持的 A3xx 净化器，请先在畅呼吸 App 中绑定。",
+      "wrong_account": "请使用现有集成对应的同一账号登录。",
+      "reauth_successful": "登录信息已更新。"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "净化器",
+        "description": "选择要添加的净化器。打开此页面时会重新发现设备。",
+        "data": {
+          "selected_devices": "净化器"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "暂时无法刷新设备列表，请稍后重试。",
+      "no_selection": "请至少选择一台净化器。"
+    },
+    "abort": {
+      "reauth_required": "登录已过期，请先完成重新登录。"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "pm25": {
+        "name": "PM2.5"
+      },
+      "temperature": {
+        "name": "温度"
+      },
+      "humidity": {
+        "name": "湿度"
+      },
+      "rpm": {
+        "name": "电机转速"
+      },
+      "error_code": {
+        "name": "故障代码"
+      }
+    },
+    "switch": {
+      "child_lock": {
+        "name": "童锁"
+      }
+    },
+    "select": {
+      "brightness": {
+        "name": "屏幕亮度",
+        "state": {
+          "auto": "自动",
+          "off": "关闭",
+          "level_1": "1 级",
+          "level_2": "2 级",
+          "level_3": "3 级",
+          "level_4": "4 级",
+          "level_5": "5 级",
+          "level_6": "6 级",
+          "level_7": "7 级",
+          "level_8": "8 级"
+        }
+      }
+    }
+  }
+}
