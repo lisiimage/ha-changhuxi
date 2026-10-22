@@ -4,7 +4,7 @@
 
 将已绑定到畅呼吸 App 的空气净化器接入 Home Assistant，支持通过 HomeKit Bridge 在 Apple「家庭」中控制。社区项目，非官方产品。
 
-**当前为测试版。** 设备读取及控制协议已经真机验证；原生集成的手机号密码登录需要完成用户端验收后才会发布稳定版、申请 HACS 默认收录。请查看 [发布记录](https://github.com/lisiimage/ha-changhuxi/releases) 了解实际验证状态。
+**已完成真实账号与设备验收。** 用户已在 HA 中使用手机号密码登录并发现净化器；原生集成的开关机、睡眠模式和50%手动速度均有设备回读确认。请查看 [发布记录](https://github.com/lisiimage/ha-changhuxi/releases) 了解版本和验证范围。
 
 ## 支持范围
 
@@ -26,7 +26,7 @@
 
 1. 打开 HACS → 右上角菜单 → 自定义存储库。
 2. 仓库输入 `https://github.com/lisiimage/ha-changhuxi`，类型选择 **Integration**。
-3. 找到「畅呼吸 Changhuxi」并下载；如果只提供测试版本，在版本列表选择测试版。
+3. 找到「畅呼吸 Changhuxi」并下载最新版本。
 4. 重启 Home Assistant。
 5. 设置 → 设备与服务 → 添加集成 → 搜索 **Changhuxi / 畅呼吸**。
 6. 输入畅呼吸 App 使用的**手机号和密码**，选择账号下的净化器。
@@ -70,6 +70,6 @@ ruff format --check .
 pytest -q
 ```
 
-自动校验：单元测试、HACS Action、Hassfest。仅有模拟登录测试不代表服务端真实登录通过；稳定发布前需要一次用户本人完成的登录、发现设备及控制验收。
+自动校验：33项单元测试、HACS Action、Hassfest。2026-10-22完成用户本人输入密码的登录、设备发现与原生控制验收；验证码、重新认证和多设备目前只有模拟测试，尚未逐项进行实机验证。
 
 反馈问题请通过 GitHub Issues，不要上传HA `.storage`、密码、token、完整抓包或未经检查的日志。
