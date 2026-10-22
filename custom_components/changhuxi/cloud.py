@@ -83,11 +83,17 @@ class Client:
             raise ValueError("oversized MQTT frame")
         data = self.read(size)
         if header >> 4 == 3:
+            if len(data) < 2:
+                raise ValueError("truncated MQTT topic length")
             topic_length = int.from_bytes(data[:2], "big")
+            if not topic_length or len(data) < 2 + topic_length:
+                raise ValueError("truncated MQTT topic")
             topic = data[2 : 2 + topic_length].decode()
             offset = 2 + topic_length
             qos = (header >> 1) & 3
             if qos == 1:
+                if len(data) < offset + 2:
+                    raise ValueError("missing MQTT message identifier")
                 self.send(0x40, data[offset : offset + 2])
                 offset += 2
             elif qos:
@@ -116,15 +122,23 @@ class Client:
             + string(c["password"]),
         )
         header, data = self.receive()
-        if header != 0x20 or data != b"\x00\x00":
+        if header != 0x20 or len(data) != 2:
+            raise ConnectionError("Invalid MQTT connection acknowledgement")
+        if data[1] in (4, 5):
             raise CloudAuthenticationError("MQTT authentication failed")
+        if data != b"\x00\x00":
+            raise ConnectionError("MQTT connection refused")
         device = c["device_id"]
         topics = [f"${kind}/{device}" for kind in ("6", "8", "a", "x", "y")]
         self.send(0x82, struct.pack("!H", self.mid) + b"".join(string(t) + b"\x01" for t in topics))
         while True:
             header, data = self.receive()
             if header == 0x90:
-                if data[:2] != struct.pack("!H", self.mid) or any(v == 128 for v in data[2:]):
+                if (
+                    len(data) != 2 + len(topics)
+                    or data[:2] != struct.pack("!H", self.mid)
+                    or any(v not in (0, 1) for v in data[2:])
+                ):
                     raise ConnectionError("MQTT subscription refused")
                 break
         return self
@@ -161,6 +175,7 @@ class Client:
             body = data[4:]
             if (
                 packet_type == expected
+                and topic == f"${expected:x}/{self.config['device_id']}"
                 and len(body) >= 3
                 and int.from_bytes(body[:2], "big") == request_id
             ):
@@ -175,11 +190,17 @@ class Client:
             raise ValueError("missing datapoint flags")
         flag, body = body[0], body[1:]
         if flag & 128:
+            if len(body) < 2:
+                raise ValueError("missing Xlink device name length")
             length = int.from_bytes(body[:2], "big")
+            if len(body) < 2 + length:
+                raise ValueError("truncated Xlink device name")
             body = body[2 + length :]
         if not flag & 64:
             raise ValueError("response contains no datapoints")
         self.points = data_points(body)
+        if self.points.get(31) not in (0, 1, 2):
+            raise ValueError("response contains no valid purifier power state")
         return self.points
 
     def set(self, points):

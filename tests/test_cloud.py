@@ -54,3 +54,19 @@ def test_rejected_command_is_not_success():
     c.receive = Mock(return_value=(0x30, ("$8/123", struct.pack("!HHHB", 8, 3, 11, 2))))
     with pytest.raises(ConnectionError):
         c.set({31: 1})
+
+
+@pytest.mark.parametrize("packet", [b"\x30\x01\x00", b"\x30\x04\x00\x05ab", b"\x32\x03\x00\x01a"])
+def test_malformed_mqtt_publish_is_rejected(packet):
+    c = Client({})
+    c.socket = Mock()
+    chunks = bytearray(packet)
+
+    def receive(size):
+        data = bytes(chunks[:size])
+        del chunks[:size]
+        return data
+
+    c.socket.recv = receive
+    with pytest.raises(ValueError):
+        c.receive()
